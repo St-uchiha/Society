@@ -1,0 +1,81 @@
+<?php
+ob_start();
+?>
+
+<?php $title = "Tableau de bord - Gestion des utilisateurs"; ?>
+    
+<?php $styles = '<link rel="stylesheet" href="../css/style.css">
+                  <link rel="stylesheet" href="../css/style_admin.css">' ;?>
+                  
+<body>
+<?php require_once('_nav.phtml'); ?>
+    <div class="row">
+      <div class="leftcolumn">
+        <h2><?= $title ?></h2>
+        <?php foreach ($all_users as $all_user) : ?>
+            <div class="column">
+              <div  class="card">
+                <div class="pic">
+                  <img src="../uploads/avatars/<?= htmlspecialchars($all_user['user_avatar'])?>" alt="">
+                </div>
+                
+                <div class="container">
+                  <h2><?= htmlspecialchars($all_user['user_firstname']) ?> <?= htmlspecialchars($all_user['user_lastname']) ?></h2>
+                  <p class="role"><?= htmlspecialchars($all_user['user_role']) ?></p>
+                  <?php if (htmlspecialchars($all_user['user_role'] != 'admin')): ?>
+                  
+                    <a class="button_action ext" onclick="return(confirm('Veux tu vraiment attribué le rôle d\'administrateur à <?=$all_user['user_firstname'] ?>  ?  '))" href="changeRole.php?id=<?= htmlspecialchars($all_user['user_id']) ?>">
+                      <strong>Mettre admin</strong>
+                    </a>
+                  <?php else : ?>
+                    <a class="button_action ext" onclick="return(confirm('Veux tu vraiment attribué le rôle d\'utilisateur à <?=$all_user['user_firstname'] ?>  ?  '))"   href="changeRole.php?mail=<?= htmlspecialchars($all_user['user_mail']) ?>">
+                      <strong>Mettre user</strong>
+                    </a>
+                  <?php endif; ?>
+                  <a class="button_action" onclick="return(confirm('Veux tu vraiment supprimer <?=$all_user['user_firstname'] ?> ?  '))"  href="deleteUser.php?id=<?= htmlspecialchars($all_user['user_id']) ?>">
+                    <strong>Supprimer</strong>
+                  </a>
+                  <a href="account.php?id=<?= htmlspecialchars($all_user['user_id']) ?>" class="button_action" >
+                    <strong>Voir le profil</strong>
+                  </a>
+                </div>
+                
+              </div>
+            </div>
+        <?php endforeach ?>
+      </div>
+      
+      <div class="rightcolumn">
+        <div class="card">
+          <h3>Bienvenue sur Réseau social</h3>
+          <div class="info_users">
+            <p>Utilisateurs inscrits : <?= $nbUsers['COUNT(*)'] ?> </p>
+          </div>
+        </div>
+        
+        
+        <div class="card">
+          <h3>Génarateur de Citations</h3>
+          <blockquote>
+            <p id="citation" class="citation" >
+              La vie est un mystère qu'il faut vivre, et non un problème à résoudre.
+            </p>
+            <div id="auteur">Gandhi</div>
+            <div class="center">
+              <button id="nouveau" class="button_c">Générer</button>
+            </div>
+          </blockquote>
+        </div>
+        
+      </div>
+    </div>
+        <?php $scripts = '
+                    <script src="../js/gcitations.js"></script>
+                    <script src="../js/main.js"></script>
+                    ' 
+    ?>
+<?php
+$content = ob_get_clean();
+require "template.php";
+?>
+

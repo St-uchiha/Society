@@ -1,0 +1,74 @@
+<?php
+ob_start();
+?>
+    <?php $styles = '<link rel="stylesheet" href="../css/style.css">
+                  <link rel="stylesheet" href="../css/style_admin.css">' ;?>
+                  
+    <?php $title = "Contactez-Nous"; ?>
+    
+
+<body>
+    <?php require_once('_nav.phtml'); ?>
+    <?php require_once('_errors.phtml'); ?>
+    <?php require_once('_valids.phtml'); ?>
+    
+    <div class="row">
+      <div class="fullcolumn">
+        <div class="container_form">
+          
+          <?php if (isset($_SESSION['user']['id'])) : ?>
+          
+          <h2><?= $title ?></h2>
+          <!-- Form for Name -->
+          <form action="contact.php" method="POST" enctype="multipart/form-data" name="newpost" class="form_post">
+            
+            <!-- label for Name -->
+            <label for="post_title">Prénom(s)</label>
+            <input type="text" name="user_lastname" value="<?=$_SESSION['user']['firstName'] ?>" >
+            <?php if($errorAuthor != ""){ echo "<p class='textError'>".$errorAuthor."</p>"; } ?>
+
+            <!-- label for Object -->
+            <label for="post_category">Objet</label>
+            <input type="text" name="contact_object" placeholder="Saisissez l'objet de votre message" >
+            <?php if($errorObject != ""){ echo "<p class='textError'>".$errorObject."</p>"; } ?>
+            
+
+            <!-- label for content -->
+            <label for="post_content">Message</label>
+            <textarea name="contact_content" id="postContent" class="form-control" placeholder="Saisissez le contenue de votre message" style="height:200px" required></textarea>
+            <?php if($errorContent != ""){ echo "<p class='textError'>".$errorContent."</p>"; } ?>
+            
+            
+            
+            <input class="btn-login" type="submit" name="post-submit"  value="Envoyez">
+            
+          </form>
+                
+          <?php else :?>
+          
+          <h2>Contact</h2>
+          
+            <p class="text-center">Vous avez une suggestion ? ou avez-vous rencontré des problèmes en étant sur society ? Vous pouvez nous laissez un message . </p>
+            
+            <p class="text-center">Veuillez vous <a href="connexion.php">connecter</a>  pour pour nous laissez un message </p>
+            
+          
+
+
+          <?php endif ;?>
+        </div>
+      </div>
+      
+    </div>
+    
+<?php $scripts = '
+  <script src="../js/main.js"></script>
+  ' 
+?>
+
+<?php
+$content = ob_get_clean();
+require "template.php";
+?>
+
+

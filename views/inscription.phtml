@@ -1,0 +1,79 @@
+
+
+<?php
+ob_start();
+?>
+
+
+<?php $styles = '<link rel="stylesheet" href="../css/style.css">
+                  <link rel="stylesheet" href="../css/style_admin.css">' ;?>
+<body>                  
+<?php require_once('_nav.phtml'); ?>
+    <?php require_once('_valids.phtml'); ?>
+
+
+
+    <form class="inscription" id="inscription" enctype="multipart/form-data" action="inscription.php" method="POST">
+        
+        <h2>Inscription</h2>
+        
+        <div class="input-container">
+            <input class="input" type="text" name="user_lastname" placeholder="Nom *" value="<?=$addUser['addNom'] ?>" >
+        </div>
+        <?php if($errorLastname != ""){ echo "<p class='textError'>".$errorLastname."</p>"; } ?>
+        
+
+        
+        <div class="input-container">
+            <input class="input" type="text" name="user_firstname" placeholder="Prénom(s) *" value="<?= $addUser['addPrenom'] ?>">
+        </div>
+        <?php if($errorFirstname != ""){ echo "<p class='textError'>".$errorFirstname."</p>"; } ?>
+
+        <div class="input-container">
+            <input class="input" type="text" name="user_mail" value="<?= $addUser['addEmail'] ?>" placeholder="Email *" >
+        </div>
+        <?php if($errorEmail != ""){ echo "<p class='textError'>".$errorEmail."</p>"; } ?>
+        
+        
+        <div class="input-container">
+            <input class="input" autocomplete="on" type="password" name="user_password" placeholder="Mot de passe *" >
+        </div>
+        <?php if($errorPassword != ""){ echo "<p class='textError'>".$errorPassword."</p>"; } ?>
+        
+        
+        <div class="input-container">
+            <input class="input" autocomplete="on"  type="password" name="user_password_confirm" placeholder="Confirmez votre mot de passe *" >
+        </div>
+        <?php if($errorPasswordConfirm != ""){ echo "<p class='textError'>".$errorPasswordConfirm."</p>"; } ?>
+        
+        <label for="user_avatar">Avatar : </label>
+        <input type="file" name="user_avatar" value="<?= $addUser['addPicture'] ?>">
+        <p>Formats autorisés : ['jpg','jpeg','gif','png']</p>
+            
+
+        <div class="cdg" >
+            <input class="check"  type="checkbox" name="conditionsGenerales">
+            <p>Accepter les conditions générales</p>
+            <?php if(isset($errorsCG)){ echo "<p class='textError'>".$errorsCG."</p>"; } ?>
+        </div>
+        
+        <button type="submit" class="btn-register"><strong>S'inscrire</strong></button>
+    </form>
+    
+    <?php $scripts = '
+                
+                <script src="../js/main.js"></script>
+                
+                    ' 
+    ?>
+    
+
+        
+<?php
+$content = ob_get_clean();
+require "template.php";
+?>
+
+
+
+

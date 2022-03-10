@@ -1,0 +1,79 @@
+<?php
+ob_start();
+?>
+
+
+    <?php $title = "Tableau de bord - Ajout d'un nouveau post"; ?>
+    
+
+    <?php $styles = '<link rel="stylesheet" href="../css/style.css">
+                  <link rel="stylesheet" href="../css/style_admin.css">' ;?>
+
+<body>
+    <?php require_once('_nav.phtml'); ?>
+    <?php require_once('_errors.phtml'); ?>
+    <?php require_once('_valids.phtml'); ?>
+
+    
+
+    
+    <div class="row">
+      <div class="fullcolumn">
+        
+        <h2><?= $title ?></h2>
+        
+        <div class="container_form">
+          <form action="newPost.php" method="POST" enctype="multipart/form-data" name="newpost" class="form_post">
+            
+        			<label for="postTitle">Titre</label>
+        			<input type="text" name="post_title" id="post_title"  placeholder="Ajouter un nouveau titre"  required>
+        			<?php if($errorTitle != ""){ echo "<p class='textError'>".$errorTitle."</p>"; } ?>
+        			
+        			<label for="postCategory">Catégorie</label>
+        
+          	  <select name="post_category" class="form-control" id="post_category"  required>
+                  <?php foreach($categories as $cat): ?>
+                      <option value="<?= htmlspecialchars($cat['category_id']) ?>"
+                          <?php if($addPost['addCategorie'] == $cat['category_id']) :?> selected <?php endif; ?>
+                      ><?= htmlspecialchars($cat['category_name']) ?></option>
+                  <?php endforeach; ?>
+                  <?php if($errorImage != ""){ echo "<p class='textError'>".$errorImage."</p>"; } ?>
+              </select>
+              
+        
+            
+        			<label for="post_image">Ajouter une image</label>
+        			<input type="file" name="post_image" id="post_image" class="form-control" required>
+        			<?php if($errorTitle != ""){ echo "<p class='textError'>".$errorTitle."</p>"; } ?>
+
+        			<label for="postContent">Contenu</label>
+        			<textarea name="post_content" id="postcontent" class="form-control" style="height:200px"  required></textarea> 
+        			<p>50 caractères minimum !! </p>
+        			<?php if($errorContent != ""){ echo "<p class='textError'>".$errorContent."</p>"; } ?>
+        
+  
+        			<input class="btn-login" type="submit" name="post-submit" class="" value="Publier" >
+          </form>
+        </div>
+          
+          
+          
+      </div>
+      
+      
+
+
+    </div>
+
+    <?php $scripts = '
+                    <script src="../js/gcitations.js"></script>
+                    <script src="../js/main.js"></script>
+                    ' 
+    ?>
+
+<?php
+$content = ob_get_clean();
+require "template.php";
+?>
+
+

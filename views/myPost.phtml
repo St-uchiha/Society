@@ -1,0 +1,94 @@
+<?php
+ob_start();
+?>
+    <?php $title = "Liste des mes articles"; ?>
+    <?php $styles = '<link rel="stylesheet" href="../css/style.css">
+                  <link rel="stylesheet" href="../css/style_admin.css">' ;?>
+                  
+<body>
+<?php require_once('_nav.phtml'); ?>
+    
+        <div class="row">
+      <div class="leftcolumn">
+                  <table class="dashboard">
+          <h2><?= $title ?></h2>
+              <?php if(empty($Posts)) : ?>
+               <p class="indispo">Aucun article disponible</p>
+            <?php endif; ?>
+                <tr class="thead">
+                    <th><strong>Numéro d'article</strong></th>
+                    <th><strong>Image</strong></th>
+                    <th><strong>Titre</strong></th>
+                    <th><strong>Date de création</strong></th>
+                    <th><strong>Contenue</strong></th>
+                    <th><strong>Categorie</strong></th>
+                    <th id="actions" colspan="2" ><strong>Actions</strong></th>
+                </tr>
+                <?php foreach ($Posts as $post) : ?>
+                    <tr>
+                      <td><strong><?= htmlspecialchars($post['post_id']) ?></strong></td>
+                      <td><img src="../uploads/img_articles/<?= $post['post_image'] ?>" class="img-table" alt="image"></td>
+                      <td><strong><?= htmlspecialchars($post['post_title']) ?></strong></td>
+                      <td><strong><?= htmlspecialchars($post['post_date']) ?></strong></td>
+                      <td><strong><?= htmlspecialchars(substr($post['post_content'], 0,10 )) . "..."  ?></strong></td>
+                      <td><strong><?= htmlspecialchars($post['category_name']) ?></strong></td>
+                      <td class="actions" >
+                        <a href="editPost.php?id=<?= htmlspecialchars($post['post_id']) ?>" class="edit"><i class="fas fa-edit"></i></a>  <a href="singlePost.php?id=<?= htmlspecialchars($post['post_id']) ?>" class="show"><i class="fas fa-eye"></i></a> 
+                        <a href="deletePost.php?id=<?= htmlspecialchars($post['post_id']) ?>" onclick="Alert('Suppresion effectué')" class="delete"><i class="fas fa-trash"></i></a>
+                      </td>
+                    </tr>
+                <?php endforeach ?>
+                
+            </table>
+            <a href="addOrUpdate.php" class="add_art">Ajouter un article</a>
+      </div>
+      
+      <div class="rightcolumn">
+        <div class="card">
+          <h3>Bienvenue sur Réseau social</h3>
+          <div class="info_users">
+            <p>Utilisateurs inscrits : <?= $nbUsers['COUNT(*)']  ?>  </p>
+          </div>
+        </div>
+        
+        <div class="card">
+          <h3>Catégories</h3>
+          <div class="categories">
+            <?php foreach ($categories as $article): ?>
+              <a href="singleCategory.php?id=<?= htmlspecialchars($article['category_id']) ?>"> <?= htmlspecialchars($article['category_name']) ?> </a>
+            <?php endforeach;?>
+          </div>
+        </div>
+        
+        <div class="card">
+          <h3>Génarateur de Citations</h3>
+          <blockquote>
+	          <p id="citation" class="citation" >
+              La vie est un mystère qu'il faut vivre, et non un problème à résoudre.
+            </p>
+	          <div id="auteur">Gandhi</div>
+            <div class="center">
+              <button id="nouveau" class="button_c">Générer</button>
+            </div>
+          </blockquote>
+        </div>
+
+        
+      </div>
+    </div>
+        <?php $scripts = '
+                    <script src="../js/gcitations.js"></script>
+                    <script src="../js/main.js"></script>
+                    ' 
+    ?>
+    
+
+
+
+
+    
+<?php
+$content = ob_get_clean();
+require "template.php";
+?>
+

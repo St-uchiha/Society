@@ -1,0 +1,209 @@
+<?php
+ob_start();
+?>
+    <?php $styles = '<link rel="stylesheet" href="css/style.css">
+                <link rel="stylesheet" href="css/style_admin.css">' ;?>
+<body onload=showDate();>
+
+  <nav  >
+    <div class="topnav" id="myTopnav">
+            <a href="index.php">Accueil</a>
+        <?php if(isset($_SESSION['user'])) : ?>
+            <a class="link" href="actions/account.php">Mon compte</a>
+            <a class="link" href="actions/myPost.php">Voir mes posts</a>
+          
+            <?php if ($_SESSION['user']['role'] == "admin"): ?>
+            <a class="link" href="actions/allUsers.php">Gestion des membres</a>
+            <a class="link" href="actions/dashboard.php">Gestion des posts</a>
+            <a class="link" href="actions/messages.php">Gestion des messages</a>  
+            <?php else:?>
+            <a class="link" href="actions/contact.php">Contact</a>  
+            <?php endif; ?>
+            <a class="link" href="actions/deconnexion.php">Déconnexion</a>
+            
+            <?php else:?>
+                
+                <a class="link" href="actions/inscription.php#inscription">Inscription</a>
+                <a class="link" href="actions/connexion.php#connexion">Connexion</a>
+                <a class="link" href="actions/contact.php">Contact</a>  
+        <?php endif;?>
+
+      <a href="javascript:void(0);" class="burger" onclick="myFunction()">
+        <i class="fa fa-bars"></i>
+
+      </a>
+    </div>
+
+  </nav>
+
+    <div class="row ">
+      
+      <div class="leftcolumn">
+        
+
+        
+        <nav>
+          
+            <ul class="pagination">
+                 <!--Lien vers la page précédente (désactivé si on se trouve sur la 1ère page) -->
+                <li class="page-item <?= ($currentPage == 1) ? "disabled" : "" ?>">
+                    <a href="index.php?page=<?= $currentPage - 1 ?>" class="page-link"><i class="fas fa-chevron-circle-left"></i></a>
+                </li>
+                <?php for($page = 1; $page <= $pages; $page++): ?>
+                   <!--Lien vers chacune des pages (activé si on se trouve sur la page correspondante) -->
+                  <li class="page-item <?= ($currentPage == $page) ? "active" : "" ?>">
+                        <a href="index.php?page=<?= $page ?>" class="page-link"><?= $page ?></a>
+                    </li>
+                <?php endfor ?>
+                   <!--Lien vers la page suivante (désactivé si on se trouve sur la dernière page) -->
+                  <li class="page-item <?= ($currentPage == $pages) ? "disabled" : "" ?>">
+                    <a href="index.php?page=<?= $currentPage + 1 ?>" class="page-link"><i class="fas fa-chevron-circle-right"></i></a>
+                </li>
+            </ul>
+        </nav>
+          
+        <?php if(empty($articles)) : ?>
+           <p class="indispo">Aucun article disponible</p>
+        <?php endif; ?>
+          
+        <?php foreach ($articles as $article): ?>
+        
+
+          <div class="card-article ">
+            <a href="singlePost.php?id=<?= htmlspecialchars($article['post_id']) ?>" class="white" >
+              <h2 id="title" class="title"><?= htmlspecialchars($article['post_title']) ?></h2>
+           </a>
+            
+            <div class="card-img">
+              <img src="uploads/img_articles/<?= $article['post_image'] ?>" class="img_art" alt="image">
+            </div>
+            <h2 class="info">
+                <?= htmlspecialchars($article['user_firstname']) ?> <i class="fas fa-user-edit"></i>,<?= htmlspecialchars($article['post_date']) ?> <i class="fas fa-calendar"></i>
+            </h2>
+            <div class="content">
+              <?= htmlspecialchars(substr($article['post_content'], 0,700 )) . "..."  ?>
+              <p class="readmore"><a href="actions/singlePost.php?id=<?= htmlspecialchars($article['post_id']) ?>"><span>Lire la suite</span></a></p> 
+            </div>
+            
+            
+          </div>
+          
+        <?php endforeach; ?>
+        
+        <nav>
+            <ul class="pagination">
+                 <!--Lien vers la page précédente (désactivé si on se trouve sur la 1ère page) -->
+                <li class="page-item <?= ($currentPage == 1) ? "disabled" : "" ?>">
+                    <a href="index.php?page=<?= $currentPage - 1 ?>#title" class="page-link"><i class="fas fa-chevron-circle-left"></i></a>
+                </li>
+                <?php for($page = 1; $page <= $pages; $page++): ?>
+                   <!--Lien vers chacune des pages (activé si on se trouve sur la page correspondante) -->
+                  <li class="page-item <?= ($currentPage == $page) ? "active" : "" ?>">
+                        <a href="index.php?page=<?= $page ?>#title" class="page-link"><?= $page ?></a>
+                    </li>
+                <?php endfor ?>
+                   <!--Lien vers la page suivante (désactivé si on se trouve sur la dernière page) -->
+                  <li class="page-item <?= ($currentPage == $pages) ? "disabled" : "" ?>">
+                    <a href="index.php?page=<?= $currentPage + 1 ?>#title" class="page-link"><i class="fas fa-chevron-circle-right"></i></a>
+                </li>
+            </ul>
+        </nav>
+        
+      </div>
+      
+      
+      <div class="rightcolumn">
+        <div  class="card">
+          <h3>Bienvenue sur SOCIETY</h3>
+          <p id='horloge' ></p>
+          <div class="info_users">
+            <p>Utilisateurs inscrits : <?= $nbUsers['COUNT(*)'] ?></p>
+            <p>Dernier utilisateurs inscrits :
+              <a href="actions/account.php?id=<?= $last_user['user_id'] ?>">
+                <i class="fas fa-user"></i> <?= $last_user['user_firstname'] ?> <?= $last_user['user_lastname'] ?> 
+              </a>
+            </p>
+          </div>
+          
+        </div>
+        
+        <div class="card">
+          <h3>Catégories</h3>
+          <div class="categories">
+            <?php foreach ($categories as $article): ?>
+              <a href="actions/singleCategory.php?id=<?= htmlspecialchars($article['category_id']) ?>"> <?= htmlspecialchars($article['category_name']) ?> </a>
+            <?php endforeach;?>
+          </div>
+        </div>
+        
+        
+        <div class="card">
+          <h3>Génarateur de Citations</h3>
+          <blockquote>
+            <p id="citation" class="citation" >
+              La vie est un mystère qu'il faut vivre, et non un problème à résoudre.
+            </p>
+            <div id="auteur">Gandhi</div>
+            <div class="center">
+              <button id="nouveau" class="button_c">Générer</button>
+            </div>
+          </blockquote>
+        </div>
+        
+        <?php if (!isset($_SESSION['user'])) : ?>
+          <div class="card">
+            
+            <form class="connexion" id="connexion" action="connexion.php" method="POST" >
+              <h3>Connexion</h3>
+              <?php require_once('_errors.phtml'); ?>
+              
+              <div class="input-container">
+                <input class="input" type="text" name="user_mail" placeholder="Email" >
+              </div>
+              
+             <div class="password-field">
+                <input class="input" id="password" autocomplete="on" type="password" name="user_password" placeholder="Mot de passe">
+                <span><i id="eye" class="fas fa-eye-slash show-mdp"></i></span> 
+            </div>
+              
+              
+              <div class="bottom-form">
+                <div>
+                  <input type="checkbox" class="check" name="conditionsGenerales" <?php if($login['conditionsGenerales'] == 1) echo 'checked' ?> >Accepter les conditions générales
+                </div>
+                
+              </div>
+              
+              <button type="submit" class="btn-login"><strong>Se connecter</strong></button>
+              <div class="text-center">
+                      <p >Vous n'avez pas encore de compte ?</p>
+              <a  href="inscription.php">Inscrivez-vous</a>
+              </div>
+              
+            </form>
+          </div>
+        <?php else: ?>
+        
+         
+        <?php endif;?>
+        
+        
+      </div>
+      
+    </div>
+    
+    
+    <?php $scripts = '
+                    <script src="js/gcitations.js"></script>
+                    <script src="js/main.js"></script>
+                    <script src="js/showDate.js"></script>
+                    ' 
+    ?>
+    
+<?php
+$content = ob_get_clean();
+require "template.php";
+?>
+
+
+

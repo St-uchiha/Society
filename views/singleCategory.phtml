@@ -1,0 +1,144 @@
+<?php
+ob_start();
+?>
+  <?php
+  if (empty($posts)) {
+    $TITLE = "Aucun article disponible ";
+  } else {
+    $TITLE = $posts[0][8];
+  }
+  ?>
+<body>  
+      <?php $styles = '<link rel="stylesheet" href="../css/style.css">
+                  <link rel="stylesheet" href="../css/style_admin.css">' ;?>
+<?php require_once('_nav.phtml'); ?>
+    
+    <div class="row">
+      <div class="leftcolumn">
+        <p class="title-admin"><?= $TITLE ?></p>
+        
+        <?php foreach ($posts as $post): ?>
+        
+          <div class="card-article ">
+            <h2 class="title"><?= htmlspecialchars($post['post_title']) ?></h2>
+            <div class="card-img">
+              <img src="../uploads/img_articles/<?= $post['post_image'] ?>" class="img_art" alt="image">
+            </div>
+            <a href="singlepost.php?id=<?= htmlspecialchars($post['post_id']) ?>" class="white" >
+            <h2 class="info"><?= htmlspecialchars($post['user_firstname']) ?> <i class="fas fa-user-edit"></i> , <?= htmlspecialchars($post['post_date']) ?> <i class="fas fa-calendar"></i></h2>
+
+           </a>
+            
+            
+            <div class="content">
+              <?= htmlspecialchars(substr($post['post_content'], 0,700 )) . "..."  ?>
+              <p class="readmore"><a href="singlePost.php?id=<?= htmlspecialchars($post['post_id']) ?>"><span>Continuer à lire</span></a></p>  
+            </div>
+            
+          </div>
+          
+        <?php endforeach; ?>
+
+      </div>
+      
+      
+      <div class="rightcolumn">
+        <div class="card">
+          <h3>Bienvenue sur SOCIETY</h3>
+          <div class="info_users">
+            <p>Utilisateurs inscrits : <?= $nbUsers['COUNT(*)'] ?></p>
+            <p>Dernier utilisateurs inscrits :
+              <a href="account.php?id=<?= $last_user['user_id'] ?>">
+                <i class="fas fa-user"></i> <?= $last_user['user_firstname'] ?> <?= $last_user['user_lastname'] ?> 
+              </a>
+            </p>
+            <p>Article aléatoire : </p>
+          </div>
+          
+        </div>
+
+        
+
+        <div class="card">
+          <h3>Catégories</h3>
+          <div class="categories">
+            <?php foreach ($categories as $categorie): ?>
+              <a href="singleCategory.php?id=<?= htmlspecialchars($categorie['category_id']) ?>"> <?= htmlspecialchars($categorie['category_name']) ?> </a>
+            <?php endforeach;?>
+          </div>
+        </div>
+        
+        
+        <div class="card">
+          <h3>Génarateur de Citations</h3>
+          <blockquote>
+
+	          <p id="citation" class="citation" >
+              La vie est un mystère qu'il faut vivre, et non un problème à résoudre.
+            </p>
+
+	          <div id="auteur">Gandhi</div>
+
+            <div class="center">
+              <button id="nouveau" class="button_c">Générer</button>
+            </div>
+
+
+          </blockquote>
+
+        </div>
+        
+                
+        <?php if (!isset($_SESSION['user'])) : ?>
+          <div class="card">
+            
+            <form class="connexion" id="connexion" action="connexion.php" method="POST" >
+              <h3>Connexion</h3>
+              <?php require_once('_errors.phtml'); ?>
+              
+              <div class="input-container">
+                <input class="input" type="text" name="user_mail" placeholder="Email" >
+              </div>
+              
+             <div class="password-field">
+                <input class="input" id="password" autocomplete="on" type="password" name="user_password" placeholder="Mot de passe">
+                <span><i id="eye" class="fas fa-eye-slash show-mdp"></i></span> 
+            </div>
+              
+              
+              <div class="bottom-form">
+                <div>
+                  <input type="checkbox" class="check" name="conditionsGenerales" <?php if($login['conditionsGenerales'] == 1) echo 'checked' ?> >Accepter les conditions générales
+                </div>
+                
+              </div>
+              
+              <button type="submit" class="btn-login"><strong>Se connecter</strong></button>
+              <div class="text-center">
+                      <p >Vous n'avez pas encore de compte ?</p>
+              <a  href="inscription.php">Inscrivez-vous</a>
+              </div>
+              
+            </form>
+          </div>
+        <?php else: ?>
+        
+         
+        <?php endif;?>
+
+
+        
+        
+      </div>
+    </div>
+    <?php $scripts = '
+                <script src="../js/gcitations.js"></script>
+                <script src="../js/main.js"></script>
+                ' 
+    ?>
+<?php
+$content = ob_get_clean();
+require "template.php";
+?>
+
+

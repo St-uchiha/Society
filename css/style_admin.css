@@ -1,0 +1,201 @@
+
+
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+
+
+
+
+.thead {
+    background-color: black;
+    color:var(--principalColor);
+}
+
+th, td {
+  text-align: center;
+  padding: 16px;
+}
+
+td strong {
+  font-size: 3rem;
+}
+
+th strong {
+  font-size: 3rem;
+}
+
+
+
+
+tr:nth-child(even) {
+  background-color:var(--principalColor) ;
+}
+
+
+
+.edit {
+  color:black;
+  width: 80px;
+}
+
+
+.delete {
+ color:black;
+}
+
+.show {
+ color:black;
+}
+
+.actions a i {
+  width: 70px;
+  margin: 10px;
+}
+
+.actions a i:hover {
+  cursor: pointer;
+  transition : transform 0.5s;
+  transform: scale(1.5);
+}
+
+.img-table {
+  width: 70px;
+}
+
+.add_art {
+  display: block;
+  width: 100%;
+  border: none;
+  background-color: var(--principalColor);
+  color: white;
+  padding: 14px 28px;
+  font-size: 3rem;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 20px;
+}
+
+.add_art:hover {
+  background-color: #ddd;
+  color: black;
+} 
+
+.img-table {
+  width: 70px;
+}
+
+
+
+
+
+
+
+
+
+
+
+.title-admin {
+  text-align:center;
+  font-size: 4.5rem;
+  text-transform: uppercase;
+}
+
+
+.pic{
+  display: flex;
+  justify-content: center;
+
+}
+
+
+.pic img{
+  width: 70px;
+  border-radius: 50%;
+}
+
+.column {
+  float: left;
+  width:50%;
+  margin-bottom: 16px;
+  padding: 0 8px;
+  display:flex;
+  /*flex-wrap: nowrap;*/
+}
+
+.about-section {
+  padding: 50px;
+  text-align: center;
+  background-color: #474e5d;
+  color: white;
+}
+
+/*.container {*/
+/*  padding: 0 16px;*/
+/*  max-height: 300px;*/
+/*}*/
+
+/*.container::after, .row::after {*/
+/*  content: "";*/
+/*  clear: both;*/
+/*  display: table;*/
+/*}*/
+
+.role {
+  color: grey;
+  text-align: center;
+  font-size: 3rem;
+}
+
+.button_action {
+  border-radius:20px;
+  margin-top: 4px;
+  border:none;
+  display: inline-block;
+  padding: 6px;
+  color: var(--principalColor);
+  font-size: 3rem;
+  background-color: #000000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  
+}
+
+.button_action:hover {
+  background-color: #555;
+}
+
+@media screen and (max-width: 650px) {
+  .column {
+    width: 100%;
+    display: block;
+  }
+}
+
+
+ /*Clear floats after the columns */
+.row {
+  padding: 1rem;
+}
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.row_user {
+  display:flex;
+}
+
+.col {
+  padding: 3em;
+}
+

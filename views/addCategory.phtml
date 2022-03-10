@@ -1,0 +1,56 @@
+<?php
+ob_start();
+?>
+    <?php $styles = '<link rel="stylesheet" href="../css/style.css">
+                  <link rel="stylesheet" href="../css/style_admin.css">' ;?>
+                  
+    <?php $title_add = "Tableau de bord - Ajout d'une nouvelle categorie"; ?>
+
+
+<body>
+    <?php require_once('_nav.phtml'); ?>
+    <?php require_once('_errors.phtml'); ?>
+    <?php require_once('_valids.phtml'); ?>
+    
+    <div class="row">
+      <div class="fullcolumn">
+        <div class="container_form">
+          
+          
+          <h2><?= $title_add ?></h2>
+          <!-- Form for add -->
+          <form action="addCategory.php" method="POST" enctype="multipart/form-data" name="newpost" class="form_post">
+            
+                  
+            <!-- label for category_name -->
+            <label for="post_author">Titre</label>
+            <input type="text" name="category_name" id="post_title"  placeholder="Ajouter un nouveau titre"  required>
+            <?php if($errorContent != ""){ echo "<p class='textError'>".$errorContent."</p>"; } ?>
+            
+            <!-- label for category_author -->
+            <label for="author">Auteur</label>
+            <input type="text" name="category_author" id="post_title"  value="<?= $_SESSION['user']['firstName']?>" disabled  required>
+            
+      
+
+            <input class="btn-login" type="submit"  value="Ajouter" >
+          </form>
+                
+          
+        </div>
+      </div>
+      
+    </div>
+    
+<?php $scripts = '
+  <script src="../js/gcitations.js"></script>
+  <script src="../js/main.js"></script>
+  ' 
+?>
+
+<?php
+$content = ob_get_clean();
+require "template.php";
+?>
+
+

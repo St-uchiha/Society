@@ -1,0 +1,31 @@
+<?php
+ob_start();
+?>
+
+
+    <?php $styles = '<link rel="stylesheet" href="../css/style.css">
+                  <link rel="stylesheet" href="../css/style_admin.css">' ;?>
+    <?php require_once('_nav.phtml'); ?>
+    <?php require_once('_errors.phtml'); ?>
+    <?php require_once('_valids.phtml'); ?>
+    
+<body>    
+    <div>
+    <h1>PAGE EN COURS DE CONSTRUCTION</h1>
+      <!--<p>Contenue : <?= $message['contact_content'] ?></p>-->
+     
+    </div>
+        
+    <?php $scripts = '
+                    
+                    <script src="../js/main.js"></script>
+                    ' 
+    ?>
+    
+<?php
+$content = ob_get_clean();
+require "template.php";
+?>
+
+
+

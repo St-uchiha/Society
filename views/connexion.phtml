@@ -1,0 +1,59 @@
+<?php
+ob_start();
+?>
+
+ <?php require_once('_valids.phtml'); ?>
+ <?php $styles = '<link rel="stylesheet" href="../css/style.css">
+                  <link rel="stylesheet" href="../css/style_admin.css">' ;?>
+
+
+<body>                  
+  <?php require_once('_nav.phtml'); ?>
+  <?php require_once('_errors.phtml'); ?>
+
+ <form class="connexion" id="connexion" action="connexion.php" method="POST" >
+   <h2>Connexion</h2>
+   
+
+   <div class="input-container">
+     <input class="input" type="text" name="user_mail" placeholder="Email " >
+   </div>
+   
+    <div class="password-field">
+     <input class="input" id="password" autocomplete="on" type="password" name="user_password" placeholder="Mot de passe ">
+     <span><i id="eye" class="fas fa-eye-slash show-mdp"></i></span> 
+   </div>
+   
+   
+   
+   <div class="bottom-form">
+     <div class="cdg">
+       <input type="checkbox" class="check" name="conditionsGenerales" <?php if($login['conditionsGenerales'] == 1){ echo 'checked';} ?> > 
+       <p>Accepter les conditions générales</p>
+     </div>
+     
+   </div>
+
+   <button type="submit" class="btn-login"><strong>Se connecter</strong></button>
+   <div class="text-center">
+           
+   <a  href="inscription.php"><p >Vous n'avez pas encore de compte ?</p></a>
+   </div>
+   
+
+ </form>
+ 
+
+     <?php $scripts = '
+                 <script src="../js/main.js"></script>
+                 ' 
+ ?>
+
+
+
+
+<?php
+$content = ob_get_clean();
+require "template.php";
+?>
+

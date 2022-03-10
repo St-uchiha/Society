@@ -1,0 +1,176 @@
+<?php
+ob_start();
+?>
+
+
+    <?php $title = "Vous lisez : " .  htmlspecialchars($article['post_title']) ; ?>
+    <?php $styles = '<link rel="stylesheet" href="../css/style.css">
+                  <link rel="stylesheet" href="../css/style_admin.css">' ;?>
+    <?php require_once('_nav.phtml'); ?>
+    <?php require_once('_errors.phtml'); ?>
+    <?php require_once('_valids.phtml'); ?>
+    
+<body>    
+    <div class="row">
+      <div class="leftcolumn">
+        <p class="title-admin"><?= $title ?></p>
+        <div class="card-article ">
+          <div class="card-img">
+            <h2 class="title"><?= htmlspecialchars($article['post_title']) ?></h2>
+            <img src="../uploads/img_articles/<?= $article['post_image'] ?>" class="img_art" alt="image">
+          </div>
+          <h2 class="info"><?= htmlspecialchars($article['user_firstname']) ?> <i class="fas fa-user-edit"></i> , <?= htmlspecialchars($article['post_date']) ?> <i class="fas fa-calendar"></i></h2>
+          <div class="content">
+            <?= nl2br(htmlspecialchars($article['post_content'])) ?>
+            <p class="fin">FIN.</p>
+          </div>
+          
+          
+          <p class="back"><a href="../index.php" class="text-white"><span>Retour à la page d'accueil</span></a></p>
+          
+          <br>
+          <br>
+          
+          <?php if (empty($comment)) :?>
+            <p>Aucun commentaires</p>
+          <?php else : ?>
+          <p>COMMENTAIRES :</p>
+            <?php foreach ($comment as $c) : ?>
+            <div class="comment_section">
+              <strong><?= $c['user_firstname'] ?> : </strong> <?= $c['comment_content'] ?>
+              <strong class="time-right"><?= $c['comment_date'] ?></strong>
+              
+            </div>
+            <?php endforeach ;?>
+          <?php endif; ?>
+          
+          <?php if(isset($_SESSION['user']['id'])) : ?>
+            <form  action="comment1.php" method="POST" class="comment" id="comment">
+              
+              <legend class=""><?= $_SESSION['user']['firstName'] ?> , Un commentaire ?</legend>
+              
+              
+              <div class="input-container">
+                <input class="input"  type="text" name="firstName" value="<?= $_SESSION['user']['firstName'] ?>"  >
+              </div>
+              
+              <input class="hidden" type="number" name="comment_post" value="<?= htmlspecialchars($article['post_id']) ?>">
+              <input class="hidden" type="number" name="comment_author" value="<?= $_SESSION['user']['id'] ?>">
+              
+              <div class="input-container">
+                <input class="input" name="comment_content" placeholder="Ecrivez un commentaire..." />
+              </div>
+              <?php if($errorContent != ""){ echo "<p class='textError'>".$errorContent."</p>"; } ?>
+              
+              <button name="submit"  type="submit" class=""><strong>Laisser un commentaire</strong></button>
+            </form>
+            
+          <?php else : ?>
+          
+          <p>
+            <a href="connexion.php">
+              Connectez-vous pour laisser un commentaire
+            </a>
+          </p>
+          
+          <?php endif; ?>
+          
+						
+        </div>
+      </div>
+      
+      <div class="rightcolumn">
+        <div class="card">
+          <h3>Bienvenue sur SOCIETY</h3>
+          <div class="info_users">
+            <p>Utilisateurs inscrits : <?= $nbUsers['COUNT(*)'] ?></p>
+            <p>Dernier utilisateurs inscrits :
+              <a href="account.php?id=<?= $last_user['user_id'] ?>">
+                <i class="fas fa-user"></i> <?= $last_user['user_firstname'] ?> <?= $last_user['user_lastname'] ?> 
+              </a>
+            </p>
+            
+          </div>
+          
+        </div>
+
+        <div class="card">
+          <h3>Catégories</h3>
+          <div class="categories">
+            <?php foreach ($categories as $categorie): ?>
+              <a href="singleCategory.php?id=<?= htmlspecialchars($categorie['category_id']) ?>"> <?= htmlspecialchars($categorie['category_name']) ?> </a>
+            <?php endforeach;?>
+          </div>
+        </div>
+        
+        <div class="card">
+          <h3>Génarateur de Citations</h3>
+
+          <blockquote>
+	          <p id="citation" class="citation" >
+              La vie est un mystère qu'il faut vivre, et non un problème à résoudre.
+            </p>
+	          <div id="auteur">Gandhi</div>
+            <div class="center">
+              <button id="nouveau" class="button_c">Générer</button>
+            </div>
+          </blockquote>
+
+        </div>
+        <?php if (!isset($_SESSION['user'])) : ?>
+          <div class="card">
+            
+            <form class="connexion" id="connexion" action="connexion.php" method="POST" >
+              <h3>Connexion</h3>
+              <?php require_once('_errors.phtml'); ?>
+              
+              <div class="input-container">
+                <input class="input" type="text" name="user_mail" placeholder="Email" >
+              </div>
+              
+             <div class="password-field">
+                <input class="input" id="password" autocomplete="on" type="password" name="user_password" placeholder="Mot de passe">
+                <span><i id="eye" class="fas fa-eye-slash show-mdp"></i></span> 
+            </div>
+              
+              
+              <div class="bottom-form">
+                <div>
+                  <input type="checkbox" class="check" name="conditionsGenerales" <?php if($login['conditionsGenerales'] == 1) echo 'checked' ?> >Accepter les conditions générales
+                </div>
+                
+              </div>
+              
+              <button type="submit" class="btn-login"><strong>Se connecter</strong></button>
+              <div class="text-center">
+                      <p >Vous n'avez pas encore de compte ?</p>
+              <a  href="inscription.php">Inscrivez-vous</a>
+              </div>
+              
+            </form>
+          </div>
+        <?php else: ?>
+        
+        <?php endif;?>
+
+        
+
+        
+      </div>
+      
+    </div>
+    
+    
+    <?php $scripts = '
+                    <script src="../js/gcitations.js"></script>
+                    <script src="../js/main.js"></script>
+                    ' 
+    ?>
+    
+<?php
+$content = ob_get_clean();
+require "template.php";
+?>
+
+
+

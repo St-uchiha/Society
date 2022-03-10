@@ -1,0 +1,68 @@
+<?php
+ob_start();
+?>
+    <?php $styles = '<link rel="stylesheet" href="../css/style.css">
+                  <link rel="stylesheet" href="../css/style_admin.css">' ;?>
+                  
+    <?php $title = "Tableau de bord - Gestion des messages"; ?>
+    
+
+<body>
+    <?php require_once('_nav.phtml'); ?>
+    <?php require_once('_errors.phtml'); ?>
+    <?php require_once('_valids.phtml'); ?>
+    
+    <div class="row">
+      <div class="fullcolumn">
+          <table class="dashboard table" >
+            <h2><?= $title ?></h2>
+                <?php if(empty($all_msg)) : ?>
+                <p class="indispo">Aucun Message disponible</p>
+              <?php endif; ?>
+                  <tr class="thead">
+                      <th><strong>Date d'Envoie</strong></th>
+                      <th><strong>Objet</strong></th>
+                      <th><strong>Contenue</strong></th>
+                      <th><strong>Auteur</strong></th>
+                      <th id="actions" colspan="2" ><strong>Actions</strong></th>
+                      
+                  </tr>
+
+                  <?php foreach ($all_msg as $msg) : ?>
+
+                      <tr>
+                        <!--<td><strong><?= $msg['contact_date'] ?></strong></td>-->
+                        <td><strong><?= strftime("%A %d %B %Y ", strtotime($msg['contact_date']) )?></strong></td>
+                        <td><strong><?= $msg['contact_object'] ?></strong></td>
+                        <td><strong><?= substr($msg['contact_content'], 0,10) . "..." ?></strong></td>
+                        <td><strong><?= htmlspecialchars($msg['user_firstname']) ?></strong></td>
+                        <td class="actions" >
+                          <a href="viewMessage.php?id=<?= htmlspecialchars($msg['contact_id']) ?>" class="show"><i class="fas fa-eye"></i></a> 
+                          <a href="" class="delete"><i class="fas fa-trash"></i></a>
+                        </td>
+
+                      </tr>
+                  <?php endforeach ?>
+                  
+              
+              </table>
+          
+         
+          
+
+
+      </div>
+      
+    </div>
+    
+<?php $scripts = '
+  <script src="../js/main.js"></script>
+  ' 
+?>
+
+<?php
+$content = ob_get_clean();
+require "template.php";
+?>
+
+

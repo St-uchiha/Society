@@ -1,0 +1,114 @@
+<?php
+ob_start();
+?>
+    <?php $styles = '<link rel="stylesheet" href="../css/style.css">
+                <link rel="stylesheet" href="../css/style_admin.css">' ;?>
+<body onload=showDate();>
+    <div class="row">
+      
+      <div class="leftcolumn">
+          
+          <div id="error">
+              <h1>404 error</h1>
+              <p>Page Introuvable</p>
+              <p>Vérifiez l'URL du site internet et réessayez</p>
+              <p><a href="../index.php">Retour à la page d'accueil</a></p>
+            </div>
+      </div>
+      
+      
+      <div class="rightcolumn">
+        <div  class="card">
+          <h3>Bienvenue sur SOCIETY</h3>
+          <p id='horloge' ></p>
+          <div class="info_users">
+            <p>Utilisateurs inscrits : <?= $nbUsers['COUNT(*)'] ?></p>
+            <p>Dernier utilisateurs inscrits :
+              <a href="account.php?id=<?= $last_user['user_id'] ?>">
+                <i class="fas fa-user"></i> <?= $last_user['user_firstname'] ?> <?= $last_user['user_lastname'] ?> 
+              </a>
+            </p>
+          </div>
+          
+        </div>
+        
+        <div class="card">
+          <h3>Catégories</h3>
+          <div class="categories">
+            <?php foreach ($categories as $article): ?>
+              <a href="actions/singleCategory.php?id=<?= htmlspecialchars($article['category_id']) ?>"> <?= htmlspecialchars($article['category_name']) ?> </a>
+            <?php endforeach;?>
+          </div>
+        </div>
+        
+        
+        <div class="card">
+          <h3>Génarateur de Citations</h3>
+          <blockquote>
+            <p id="citation" class="citation" >
+              La vie est un mystère qu'il faut vivre, et non un problème à résoudre.
+            </p>
+            <div id="auteur">Gandhi</div>
+            <div class="center">
+              <button id="nouveau" class="button_c">Générer</button>
+            </div>
+          </blockquote>
+        </div>
+        
+        <?php if (!isset($_SESSION['user'])) : ?>
+          <div class="card">
+            
+            <form class="connexion" id="connexion" action="connexion.php" method="POST" >
+              <h3>Connexion</h3>
+              <?php require_once('_errors.phtml'); ?>
+              
+              <div class="input-container">
+                <input class="input" type="text" name="user_mail" placeholder="Email" >
+              </div>
+              
+             <div class="password-field">
+                <input class="input" id="password" autocomplete="on" type="password" name="user_password" placeholder="Mot de passe">
+                <span><i id="eye" class="fas fa-eye-slash show-mdp"></i></span> 
+            </div>
+              
+              
+              <div class="bottom-form">
+                <div>
+                  <input type="checkbox" class="check" name="conditionsGenerales" <?php if($login['conditionsGenerales'] == 1) echo 'checked' ?> >Accepter les conditions générales
+                </div>
+                
+              </div>
+              
+              <button type="submit" class="btn-login"><strong>Se connecter</strong></button>
+              <div class="text-center">
+                      <p >Vous n'avez pas encore de compte ?</p>
+              <a  href="inscription.php">Inscrivez-vous</a>
+              </div>
+              
+            </form>
+          </div>
+        <?php else: ?>
+        
+         
+        <?php endif;?>
+        
+        
+      </div>
+      
+    </div>
+    
+    
+    <?php $scripts = '
+                    <script src="js/gcitations.js"></script>
+                    <script src="js/main.js"></script>
+                    <script src="js/showDate.js"></script>
+                    ' 
+    ?>
+    
+<?php
+$content = ob_get_clean();
+require "template.php";
+?>
+
+
+

@@ -1,0 +1,99 @@
+<?php
+ob_start();
+?>
+    <?php $styles = '<link rel="stylesheet" href="../css/style.css">
+                  <link rel="stylesheet" href="../css/style_admin.css">' ;?>
+<body>  
+    <?php require_once('_nav.phtml'); ?>
+    
+    <!-- Le cas ou l'utilisateur souhaite voir le profil d'un autre utilisateur -->
+    <?php if (isset($_GET['id'])) : ?>
+        
+        <div class="account">
+          <div class="profil" style="flex-grow: 1">
+            
+            <?php foreach ($user_b as $ub) : ?>
+            
+            <h2><?= $ub['user_firstname'] ?></h2>
+              <img class="img_profil" src="../uploads/avatars/<?= $ub['user_avatar']?>" alt="">
+              
+              <p>Role : <?= $ub['user_role'] ?></p>
+              
+              
+            <?php endforeach ;?>
+            
+            
+          </div>
+          
+          <div style="flex-grow: 9">
+            
+            
+            <h2>Ses posts</h2>
+            
+            <?php if (empty($post_b)) :?>
+             <p class="text-center" >Cet utilisateur n'a aucun post</p>
+             
+            <?php else: ?>
+            
+              <?php foreach($post_b as $pb) : ?>
+              
+              <?= $pb['post_title'] ?>
+              
+              <?php endforeach;?>
+              
+            <?php endif; ?>
+            
+          </div>
+          
+          
+        </div>
+    
+    <!-- Le cas ou l'utilisateur souhaite voir son propre profil -->    
+    <?php else:?>
+      <div class="account">
+        <div class="profil" style="flex-grow: 2">
+          
+            <h2 class="text-white">Mon Compte</h2>
+            <img class="img_profil" src="../uploads/avatars/<?= $_SESSION['user']['avatar']?>" alt="">
+            <p><?= $_SESSION['user']['firstName'] ?> <?= $_SESSION['user']['lastName'] ?> </p>
+            
+            
+            
+            <p>Role : <?= $_SESSION['user']['role'] ?></p>
+            <a href="deleteUser.php?id=<?= $_SESSION['user']['firstName'] ?>" onclick="return(confirm('Veux-tu vraiment supprimer ton compte ? '))"  class="delete_btn">Supprimer mon compte</a>
+            
+        </div>
+        
+        <div class="profil2" style="flex-grow: 8">
+          
+          
+          <h2>Mes Informations</h2>
+          
+          <div class="infos text-center">
+            <p>Email : <?= $_SESSION['user']['email'] ?>  </p>
+            <p>Mot de passe : ********* </p>
+            
+            
+            <a class="btn infoo" href="">Modifier mes informations<strong>(Non fonctionnel)</strong></a>
+            <a class="btn danger" href="deconnexion.php">Déconnexion</a>
+              
+          </div>
+          
+        </div>
+        
+        
+      </div>
+
+    <?php endif ;?>
+            <?php $scripts = '
+                    <script src="../js/main.js"></script>
+                    ' 
+    ?>
+    
+<?php
+$content = ob_get_clean();
+require "template.php";
+?>
+
+
+

@@ -1,0 +1,14 @@
+<?php
+
+if (isset($errors) && !empty($errors) ) : ?>
+    <div id="messagesErrors">
+        <div>
+            <ul>
+                
+                <?php foreach($errors as $error) : ?>
+                    <li><?= $error; ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+<?php endif; ?>

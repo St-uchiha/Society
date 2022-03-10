@@ -1,0 +1,64 @@
+<?php
+ob_start();
+?>
+
+    <?php $title = "Modification d'article"; ?>
+    <?php $styles = '<link rel="stylesheet" href="../css/style.css">
+                  <link rel="stylesheet" href="../css/style_admin.css">' ;?>
+                  
+
+<body>    
+    <?php require_once('_nav.phtml'); ?>
+
+    
+    <div class="row">
+      <div class=" fullcolumn">
+        
+        <h2><?= $title ?></h2>
+        <h3>PAGE EN COURS DE CONSTRUCTION</h3>
+                
+       <!-- <div class="container_form">-->
+       <!--   <form action="editPost.php?id=<?= $article['post_id']?>"  method="POST" enctype="multipart/form-data" name="editPost" class="form_post">-->
+            
+       <!-- 			<label for="postTitle">Titre</label>-->
+							<!--<input type="text" name="post_title" id="postname" class="form-control" placeholder="Add New Title" value="<?= htmlspecialchars($article['post_title']) ?>">-->
+							
+							<!--<input type="text" hidden name="post_id" id="postname" class="form-control" value="<?= htmlspecialchars($article['post_id']) ?>">-->
+        			
+       <!-- 			<label>Catégorie actuelle : <?= htmlspecialchars($article['category_name']) ?></label><br>-->
+        			
+       <!--   	  <select name="post_category" value="<?= htmlspecialchars($article['category_name']) ?>" class="form-control" id="post_category"  required>-->
+       <!--   	    	  <?php foreach ($categories as $categorie): ?>-->
+		     <!--             <option selected="selected"><?= htmlspecialchars($categorie['category_id']) ?></option>-->
+       <!--             <?php endforeach;?>-->
+       <!--       </select>-->
+              
+              
+							<!--<label>Image actuelle: <img src="../uploads/img_articles/<?= $article['post_image'] ?>" value="<?= $article['post_image'] ?>" class="img_art" style="width:100px" alt="image"></label><br>-->
+       <!-- 			<input type="file" name="post_image" id="post_image" value="<?= $article['post_image'] ?>" class="form-control" >-->
+
+        			
+       <!-- 			  <div class="form-group">-->
+  					<!--				<label for="postContent">Contenue actuelle</label>-->
+  					<!--				<textarea name="post_content" id="postContent" class="form-control" value="<?= htmlspecialchars($article['post_content']);?>" cols="30" rows="10"><?= htmlspecialchars($article['post_content']);?></textarea>-->
+							<!--	</div>-->
+        
+  
+       <!-- 			<input class="btn-login" type="submit" name="post-update" class="" value="Mettre à jour" > <a href="deletePost.php?id=<?= htmlspecialchars($article['post_id']);?>">Supprimer l'article</a>-->
+       <!--   </form>-->
+       <!-- </div>-->
+      </div>
+      
+    </div>
+        <?php $scripts = '
+                   
+                    <script src="../js/main.js"></script>
+                    ' 
+    ?>
+    
+    
+<?php
+$content = ob_get_clean();
+require "template.php";
+?>
+

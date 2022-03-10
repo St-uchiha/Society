@@ -1,0 +1,74 @@
+<footer>
+    <div class="footer-left">
+        <h3>SO<span>CIETY</span></h3>
+        <p class="footer-links">
+            <a href="index.php">Accueil</a>
+                .
+            <?php if(isset($_SESSION['user'])) : ?>
+                <a class="link" href="myAccount.php">Mon Compte</a>
+                .
+                <a class="link" href="deconnexion.php">Déconnexion</a>
+                <?php else:?>
+                    
+                    <a class="link" href="inscription.php#inscription">Inscription</a>
+                    .
+                    <a class="link" href="connexion.php#connexion">Connexion</a>
+                    
+      
+                    
+            <?php endif;?>
+                
+        </p>
+        <p class="footer-company-name text-white">Copyright &copy; <?= getCurrentDate('Y'); ?> SOCIETY by 
+            <a href="https://www.sergetouvoli.com/">
+                <strong class="text-white" >Serge Touvoli</strong>
+            </a> 
+        </p>
+    </div>
+    
+    <div class="footer-center">
+        <div>
+            <i class="fas fa-map-marker-alt"></i>
+            <p> Grenoble, France</p>
+        </div>
+        
+        <div>
+            
+            <i class="fas fa-phone"></i>
+            <p>+33 00000000</p>
+        </div>
+        
+        <div>
+            <i class="fas fa-envelope"></i>
+            <p><a href="mailto:contact@society.com" class="text-white">contact@society.com</a></p>
+        </div>
+     
+    </div>
+    
+    <div class="footer-right">
+        <p class="footer-company-about">
+            <span>Society , c'est quoi</span>
+            Un réseau social fait par vous et pour vous . 
+        </p>
+     
+         <div class="footer-icons">
+         
+             <a href="#"><i class="fab fa-facebook"></i></a>
+             <a href="#"><i class="fab fa-twitter"></i></a>
+             <a href="#"><i class="fab fa-linkedin"></i></a>
+             <a href="#"><i class="fab fa-github"></i></a>
+             
+         </div>
+     
+     </div>
+     
+ </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<?php
+ if (isset($scripts)) {
+    echo $scripts;
+} 
+?>
+</body>
+</html>
